@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col, Card,Button } from 'react-bootstrap';
+import {Col, Card,Button } from 'react-bootstrap';
 
 function Pelicula({peli,obtenerDetalle}) {
     const handleDetalle = () => {
@@ -7,14 +7,12 @@ function Pelicula({peli,obtenerDetalle}) {
     }
     
     return (
-        <Container className="mt-2">
-        <Row>
-          <Col xs={6} md={4}>
-            <Card>
+          <Col xs={6} md={3}>
+            <Card border='secondary' className='mt-3 text-center'>
               <Card.Header>
-                <h5>{peli.Title}</h5>
-                <img src={peli.Poster} alt={peli.Title} />
+              <Card.Title className='card-title'>{peli.Title}</Card.Title>
               </Card.Header>
+              <Card.Img  className='cardImg' variant='top' src={peli.Poster}/>
               <Card.Body>
                 <h5><strong>Año:</strong> {peli.Year}</h5>
                 <h5><strong>imdbID:</strong> {peli.imdbID}</h5>
@@ -23,8 +21,6 @@ function Pelicula({peli,obtenerDetalle}) {
               </Card.Body>
             </Card>
           </Col>
-        </Row>
-      </Container>
     )
 }
 
