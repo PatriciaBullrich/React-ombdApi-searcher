@@ -15,7 +15,7 @@ import Historial from './Historial';
 const LOCAL_STORAGE_KEY = "pelis.historial";
 function App() {
   const [peliculas, setPeliculas] = useState([]);
-  const [busqueda, setBusqueda] = useState("")
+  const [busqueda, setBusqueda] = useState({nombre: '', year:'', tipo:''})
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -23,6 +23,7 @@ function App() {
   const [detalle, setDetalle] = useState({});
   const [historial, SetHistorial] = useStickyState([],LOCAL_STORAGE_KEY);
   const [showHistorial, setShowHistorial] = useState(false)
+  const [url, setUrl] = useState('');
 
   useUpdateEffect(()=>{
     const nuevoItem = detalle;
@@ -34,6 +35,10 @@ function App() {
     if(showHistorial) setShowHistorial(false);
   }, [showModal,peliculas])
 
+
+  useEffect(() => {
+    setUrl(`http://www.omdbapi.com/?apikey=96b556cb&s=${busqueda.nombre}&y=${busqueda.year}&type=${busqueda.tipo}`)
+  }, [busqueda])
 
 
   const handleSubmit =  async () =>{    
@@ -48,7 +53,6 @@ function App() {
 
       setTimeout(async() =>{
         try {
-          const url= `http://www.omdbapi.com/?apikey=96b556cb&s=${busqueda}`;
           const response = await axios.get(url);
           const data = response.data;
           console.log(response)
@@ -59,7 +63,7 @@ function App() {
           }
           else{
             setPeliculas(data.Search);
-            SetHistorial([...historial, {Title:busqueda, data: data.Search}])
+            SetHistorial([...historial, {Title:busqueda.nombre, data: data.Search}])
             setLoading(false);
           }
         } catch (error) {
@@ -82,7 +86,7 @@ function App() {
    }
 
   const handleChange = value =>{
-    setBusqueda(value);
+    setBusqueda({...busqueda, ...value});
   }
   
   const handleCloseModal = () => {

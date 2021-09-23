@@ -10,8 +10,8 @@ export default function Buscador({search,submit, mostrarHistorial}) {
     e.target.reset();
   }
 
-  const handleSearch = (e) => {
-    search(e.target.value);
+  const handleSearch = (value) => {
+    search(value);
   }
   
   
@@ -21,9 +21,26 @@ export default function Buscador({search,submit, mostrarHistorial}) {
       <Form onSubmit={handleSubmit} className="mt-2">
         <Form.Row className="text-center">
           <Col md={12} className="my-1">
-            <Form.Control className="text-center"
-              onChange={handleSearch}
-              placeholder="busca peliculas"/>
+          <Form.Label>Nombre</Form.Label>
+          <Form.Control className="text-center campo"
+            onChange={ e => handleSearch({nombre: e.target.value})}
+            placeholder="titulo"/>
+            <Form.Label>Año</Form.Label>
+            <Form.Control className="text-center campo"
+            onChange={e => handleSearch({year: e.target.value})}
+            placeholder="año"/>
+            <Form.Label>Tipo</Form.Label>
+            <Form.Control className=' text-center campo'
+              as="select"
+              onChange={e => {
+                handleSearch({tipo: e.target.value});
+              }}
+            >
+          <option value="movie">Peliculas</option>
+          <option value="series">Series</option>
+          <option value="episode">Episodio</option>
+          <option value="game">Juego</option>
+          </Form.Control>
           </Col>
           <Col md={12} className="my-1 mt-2 text-center">
             <Button className='w-50' type="submit">Buscar</Button>
